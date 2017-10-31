@@ -95,7 +95,14 @@ def make_input(config):
     """
     inputs = []
     labels = []
-    dir_path, scale, is_grayscale, I, L, stride = config
+
+    dir_path = config['dir_path']
+    scale = config['scale']
+    is_grayscale = config['is_gray']
+    I = config['input_size']
+    L = config['label_size']
+    stride = config['stride']
+
     image_paths = get_image_paths(dir_path)
     
     for path in image_paths:
@@ -109,14 +116,13 @@ def make_input(config):
     labels = np.asarray(labels) # shape (N, L, L, 1)
     return inputs, labels
 
-
-
-config = 'Train', 3, True, 33, 21, 21
-
-dir = 'Train'
-paths = get_image_paths(dir)
-image = imread(paths[0])
-inputs, labels = make_input(config)
-print(inputs.shape, labels.shape)
-
-
+# testing
+if __name__ == "__main__":
+    paths = get_image_paths('Train')
+    image = imread(paths[0])
+    print(image)
+    inp, label = process_image(image)
+    scipy.misc.imsave('inp.png', inp)
+    scipy.misc.imsave('label.png', label)
+    print(inp)
+    print(label)
